@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Happy Diwali 2026 | Motion Vault Studio</title>
+  <meta name="description" content="Personalized Diwali Greetings, Interactive Crackers & Safe Celebration Guide by Motion Vault Studio - Tarun M S, Sow Karthik S & Vishnu Karthikeyaa J." />
+  <meta name="keywords" content="Diwali, Motion Vault Studio, Happy Diwali, Safe Diwali, Interactive Diwali, Tarun M S, Sow Karthik S, Vishnu Karthikeyaa J" />
+  <meta property="og:title" content="Happy Diwali | Motion Vault Studio" />
+  <meta property="og:description" content="Light up your Diwali with an interactive celebration by Motion Vault Studio!" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;400;500;600;700;800&family=Rozha+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="festive-theme">
+  <!-- Interactive Canvas Background for Fireworks, Sparklers & Floating Lanterns -->
+  <canvas id="fireworks-canvas"></canvas>
+
+  <!-- Animated Festive Toran (Garland) at top -->
+  <header class="toran-header" id="toran">
+    <div class="toran-string"></div>
+    <div class="toran-elements" id="toranElements"></div>
+  </header>
+
+  <!-- Top Floating Controls / Audio HUD -->
+  <div class="floating-hud">
+    <button id="soundToggleBtn" class="hud-btn" aria-label="Toggle festive sound" title="Sound Effects & Ambient Music">
+      <span class="hud-icon" id="soundIcon">🔇</span>
+      <span class="hud-text">Sound: OFF</span>
+    </button>
+    <button id="bgmToggleBtn" class="hud-btn hud-btn-ambient" aria-label="Toggle Festive Melody" title="Play Festive Raga Melody">
+      <span class="hud-icon">🪕</span>
+      <span class="hud-text">Music: OFF</span>
+    </button>
+    <button id="fullscreenBtn" class="hud-btn" aria-label="Toggle Fullscreen" title="Toggle Fullscreen Mode">
+      <span class="hud-icon">⛶</span>
+      <span class="hud-text">Fullscreen</span>
+    </button>
+  </div>
+
+  <main class="main-wrapper">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
+      <div class="glow-orb orb-3"></div>
+
+      <!-- Studio Badge -->
+      <div class="studio-badge-wrapper animate-float">
+        <div class="studio-pill">
+          <span class="sparkle-star">✨</span>
+          <span class="company-name">MOTION VAULT STUDIO</span>
+          <span class="sparkle-star">✨</span>
+        </div>
+        <p class="studio-tagline">Presents A Divine Festival of Lights Celebration</p>
+      </div>
+
+      <!-- Main Decorative Title -->
+      <div class="hero-title-container">
+        <div class="decorative-mandala-ring"></div>
+        <h1 class="diwali-main-title">
+          <span class="title-main" data-text="HAPPY DIWALI">HAPPY DIWALI</span>
+        </h1>
+        <p class="hero-desc">
+          May the divine radiance of Diwali ignite endless joy, prosperity, good health, and boundless creative brilliance in your life.
+        </p>
+      </div>
+
+      <!-- Personalized Greeting Banner (Dynamic based on user) -->
+      <div class="personalized-welcome-banner" id="personalizedBanner">
+        <div class="banner-diya-left">🪔</div>
+        <div class="banner-content">
+          <span class="greeting-prefix" id="greetingPrefix">Specially Crafted For</span>
+          <h2 class="recipient-name" id="displayRecipientName">Beloved Guest & Friend</h2>
+          <p class="custom-festive-quote" id="displayWishQuote">
+            "May the sacred lamps shine bright on your path, dispelling darkness and heralding glorious new triumphs!"
+          </p>
+        </div>
+        <div class="banner-diya-right">🪔</div>
+      </div>
+
+      <!-- Personalized Name Customizer Box -->
+      <div class="personalizer-card glass-panel">
+        <div class="card-ornament top-ornament"></div>
+        <h3 class="panel-heading">
+          <span class="badge-icon">✍️</span> Personalize Your Diwali Wish
+        </h3>
+        <p class="panel-sub">Enter your name or your friend's name to generate an interactive celebration link & custom greetings!</p>
+
+        <form id="personalizeForm" class="personalize-form" onsubmit="event.preventDefault(); applyPersonalization();">
+          <div class="input-group">
+            <input 
+              type="text" 
+              id="userNameInput" 
+              class="festive-input" 
+              placeholder="Enter your name (e.g. Aditi, Rahul, Team)..." 
+              maxlength="40"
+              autocomplete="name"
+            />
+            <button type="submit" class="action-btn glow-btn" id="generateWishBtn">
+              <span>Generate My Wish</span> 
+              <span class="btn-arrow">✨</span>
+            </button>
+          </div>
+
+          <div class="wish-mood-selector">
+            <span class="mood-label">Blessing Vibe:</span>
+            <div class="mood-chips" id="moodChips">
+              <button type="button" class="mood-chip active" data-vibe="wealth">💰 Wealth & Prosperity</button>
+              <button type="button" class="mood-chip" data-vibe="success">🚀 Success & Ambition</button>
+              <button type="button" class="mood-chip" data-vibe="peace">🕊️ Peace & Good Health</button>
+              <button type="button" class="mood-chip" data-vibe="creativity">🎨 Creative Energy & Joy</button>
+            </div>
+          </div>
+
+          <div class="share-actions-row" id="shareActionsRow">
+            <button type="button" class="share-btn whatsapp-btn" id="whatsappShareBtn" title="Share on WhatsApp">
+              <span>📲 Share on WhatsApp</span>
+            </button>
+            <button type="button" class="share-btn copy-btn" id="copyLinkBtn" title="Copy Personalized Link">
+              <span>🔗 Copy My Link</span>
+            </button>
+            <button type="button" class="share-btn card-btn" id="openCardModalBtn" title="Create Downloadable Greeting Card">
+              <span>🖼️ Download Festive Card</span>
+            </button>
+          </div>
+          <p class="link-copied-hint" id="linkCopiedHint">Copied personalized link to clipboard!</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Interactive Diya Lighting Chamber -->
+    <section class="interactive-chamber glass-panel" id="diyaChamber">
+      <div class="section-badge">✨ Interactive Ritual</div>
+      <h2 class="section-title">Light The Sacred Pancha Diyas</h2>
+      <p class="section-desc">Click each sacred clay diya to ignite the holy flame. Light all 5 diyas to awaken the grand celestial light shower!</p>
+
+      <div class="diyas-grid" id="diyasGrid">
+        <!-- 5 Interactive Diyas dynamically injected or structured -->
+        <div class="diya-item" data-index="0" role="button" tabindex="0" aria-label="Light Diya 1: Prosperity">
+          <div class="diya-glow"></div>
+          <div class="flame-container">
+            <div class="flame"></div>
+            <div class="spark-particles"></div>
+          </div>
+          <div class="diya-bowl">
+            <div class="diya-wick"></div>
+            <div class="diya-rim"></div>
+            <div class="diya-body"></div>
+          </div>
+          <div class="diya-label">Lakshmi (Prosperity)</div>
+          <div class="diya-hint">Tap to Light</div>
+        </div>
+
+        <div class="diya-item" data-index="1" role="button" tabindex="0" aria-label="Light Diya 2: Wisdom">
+          <div class="diya-glow"></div>
+          <div class="flame-container">
+            <div class="flame"></div>
+            <div class="spark-particles"></div>
+          </div>
+          <div class="diya-bowl">
+            <div class="diya-wick"></div>
+            <div class="diya-rim"></div>
+            <div class="diya-body"></div>
+          </div>
+          <div class="diya-label">Ganesha (Wisdom)</div>
+          <div class="diya-hint">Tap to Light</div>
+        </div>
+
+        <div class="diya-item" data-index="2" role="button" tabindex="0" aria-label="Light Diya 3: Health">
+          <div class="diya-glow"></div>
+          <div class="flame-container">
+            <div class="flame"></div>
+            <div class="spark-particles"></div>
+          </div>
+          <div class="diya-bowl">
+            <div class="diya-wick"></div>
+            <div class="diya-rim"></div>
+            <div class="diya-body"></div>
+          </div>
+          <div class="diya-label">Aarogya (Health)</div>
+          <div class="diya-hint">Tap to Light</div>
+        </div>
+
+        <div class="diya-item" data-index="3" role="button" tabindex="0" aria-label="Light Diya 4: Peace">
+          <div class="diya-glow"></div>
+          <div class="flame-container">
+            <div class="flame"></div>
+            <div class="spark-particles"></div>
+          </div>
+          <div class="diya-bowl">
+            <div class="diya-wick"></div>
+            <div class="diya-rim"></div>
+            <div class="diya-body"></div>
+          </div>
+          <div class="diya-label">Shanti (Inner Peace)</div>
+          <div class="diya-hint">Tap to Light</div>
+        </div>
+
+        <div class="diya-item" data-index="4" role="button" tabindex="0" aria-label="Light Diya 5: Joy">
+          <div class="diya-glow"></div>
+          <div class="flame-container">
+            <div class="flame"></div>
+            <div class="spark-particles"></div>
+          </div>
+          <div class="diya-bowl">
+            <div class="diya-wick"></div>
+            <div class="diya-rim"></div>
+            <div class="diya-body"></div>
+          </div>
+          <div class="diya-label">Ananda (Joy & Unity)</div>
+          <div class="diya-hint">Tap to Light</div>
+        </div>
+      </div>
+
+      <div class="diya-counter-status">
+        <span id="diyaCounterText">Diyas Lighted: 0 / 5</span>
+        <button id="lightAllDiyasBtn" class="pill-action-btn">Light All Automatically ✨</button>
+      </div>
+
+      <!-- Celestial Blessing Revealed on Lighting 5 Diyas -->
+      <div class="grand-blessing-box" id="grandBlessingBox">
+        <div class="blessing-crown">👑</div>
+        <h3>Maha Lakshmi & Ganesha Divine Blessings Unlocked!</h3>
+        <p>
+          May the radiance of these Pancha Pradeepam illuminate every corner of your home, career, and dreams with boundless success!
+        </p>
+        <button class="action-btn glow-btn" id="burstCelebrationBtn">Trigger Mega Celebration Fireworks 🎆</button>
+      </div>
+    </section>
+
+    <!-- Interactive Cracker Launcher Arcade -->
+    <section class="crackers-arcade glass-panel" id="crackerArcade">
+      <div class="section-badge">🎆 Festive Firecracker Sandbox</div>
+      <h2 class="section-title">Virtual Cracker Playground</h2>
+      <p class="section-desc">
+        Enjoy 100% pollution-free, child-friendly, interactive virtual fireworks with authentic crackling audio and colorful particle cascades!
+      </p>
+
+      <div class="arcade-tools-grid">
+        <!-- Tool 1: Phooljhadi / Sparkler -->
+        <div class="arcade-card" id="toolSparkler" role="button" tabindex="0">
+          <div class="arcade-icon">🎇</div>
+          <div class="arcade-info">
+            <h4>Golden Sparkler</h4>
+            <p>Click & drag across screen to draw living sparks</p>
+          </div>
+          <button class="arcade-trigger-btn" onclick="triggerPreset('sparkler')">Spark Now</button>
+        </div>
+
+        <!-- Tool 2: Anar / Flowerpot -->
+        <div class="arcade-card" id="toolAnar" role="button" tabindex="0">
+          <div class="arcade-icon">🪴</div>
+          <div class="arcade-info">
+            <h4>Fountain Anar</h4>
+            <p>Shoots a towering fountain of golden & violet stars</p>
+          </div>
+          <button class="arcade-trigger-btn" onclick="triggerPreset('anar')">Ignite Anar</button>
+        </div>
+
+        <!-- Tool 3: Chakri / Ground Spinner -->
+        <div class="arcade-card" id="toolChakri" role="button" tabindex="0">
+          <div class="arcade-icon">🌀</div>
+          <div class="arcade-info">
+            <h4>Zipping Chakri</h4>
+            <p>Spins on the ground emitting radiant neon sparks</p>
+          </div>
+          <button class="arcade-trigger-btn" onclick="triggerPreset('chakri')">Spin Chakri</button>
+        </div>
+
+        <!-- Tool 4: Sky Rocket -->
+        <div class="arcade-card" id="toolRocket" role="button" tabindex="0">
+          <div class="arcade-icon">🚀</div>
+          <div class="arcade-info">
+            <h4>Sky Rocket</h4>
+            <p>Whistles into the heavens and bursts into rainbow rings</p>
+          </div>
+          <button class="arcade-trigger-btn" onclick="triggerPreset('rocket')">Launch Rocket</button>
+        </div>
+
+        <!-- Tool 5: Sky Lantern -->
+        <div class="arcade-card" id="toolLantern" role="button" tabindex="0">
+          <div class="arcade-icon">🏮</div>
+          <div class="arcade-info">
+            <h4>Akashdeep Lantern</h4>
+            <p>Release a glowing wish lantern ascending to the stars</p>
+          </div>
+          <button class="arcade-trigger-btn" onclick="triggerPreset('lantern')">Float Lantern</button>
+        </div>
+
+        <!-- Tool 6: Colorful Rangoli Bomb -->
+        <div class="arcade-card" id="toolColorBurst" role="button" tabindex="0">
+          <div class="arcade-icon">🎨</div>
+          <div class="arcade-info">
+            <h4>Rangoli Confetti</h4>
+            <p>Explosion of marigold, gulal, and glittering petals</p>
+          </div>
+          <button class="arcade-trigger-btn" onclick="triggerPreset('confetti')">Blast Colors</button>
+        </div>
+      </div>
+
+      <div class="canvas-tip-box">
+        💡 <strong>Pro-Tip:</strong> You can click, tap, or drag anywhere on the entire screen to trigger fireworks anytime!
+      </div>
+    </section>
+
+    <!-- Safe Celebrations Zone (Mandatory Requirement) -->
+    <section class="safety-section glass-panel" id="safeCelebrations">
+      <div class="section-badge safe-badge">🛡️ Green & Safe Diwali Guide</div>
+      <h2 class="section-title">Celebrate With Safety, Joy & Mindfulness</h2>
+      <p class="section-desc">
+        At <strong>MOTION VAULT STUDIO</strong>, we believe true celebration spreads light without casting shadows. Here are essential safety recommendations for you, your family, and community:
+      </p>
+
+      <div class="safety-grid">
+        <!-- Safety Rule 1: Pet Safety -->
+        <div class="safety-card">
+          <div class="safety-icon-bubble">🐾</div>
+          <h3 class="safety-card-title">Cherish Our Animal Friends</h3>
+          <p class="safety-card-desc">
+            Animals have ultra-sensitive hearing. Keep pets indoors in a cozy, secure room with closed windows. Play soothing music, provide fresh water, and never tease or burst crackers near street animals.
+          </p>
+          <div class="safety-tag">Pet Friendly</div>
+        </div>
+
+        <!-- Safety Rule 2: Green Crackers & Eco Harmony -->
+        <div class="safety-card">
+          <div class="safety-icon-bubble">🌿</div>
+          <h3 class="safety-card-title">Choose Green & Earth-Safe</h3>
+          <p class="safety-card-desc">
+            If bursting crackers, choose certified <strong>SWAS, STAR, SAFAL</strong> green crackers with 30-40% lower emissions and free of toxic barium. Better yet, light up with organic earthen lamps!
+          </p>
+          <div class="safety-tag">Eco-Conscious</div>
+        </div>
+
+        <!-- Safety Rule 3: Fire Safety & Attire -->
+        <div class="safety-card">
+          <div class="safety-icon-bubble">🧯</div>
+          <h3 class="safety-card-title">Cotton Attire & First-Aid Ready</h3>
+          <p class="safety-card-desc">
+            Wear fitted cotton clothing; avoid synthetic fabrics, dupattas, or loose garments near flames. Always keep a bucket of water, sand, and a standard burn-relief kit (like silver sulfadiazine) within arm's reach.
+          </p>
+          <div class="safety-tag">Fire Preparedness</div>
+        </div>
+
+        <!-- Safety Rule 4: Child Supervision -->
+        <div class="safety-card">
+          <div class="safety-icon-bubble">👨‍👩‍👧‍👦</div>
+          <h3 class="safety-card-title">Active Parental Supervision</h3>
+          <p class="safety-card-desc">
+            Never let young children light crackers unaccompanied. Maintain at least an arm's length when lighting sparklers, and never attempt to relight an unexploded cracker or inspect it closely.
+          </p>
+          <div class="safety-tag">Family Care</div>
+        </div>
+
+        <!-- Safety Rule 5: Silent Zones & Respect -->
+        <div class="safety-card">
+          <div class="safety-icon-bubble">🏥</div>
+          <h3 class="safety-card-title">Respect Hospitals & Elders</h3>
+          <p class="safety-card-desc">
+            Observe strict silent hours around hospitals, elderly shelters, and residential care facilities. Avoid loud, high-decibel explosives. Celebrate with luminous lights and sweet treats instead!
+          </p>
+          <div class="safety-tag">Community Harmony</div>
+        </div>
+
+        <!-- Safety Rule 6: Clean Up & Waste Disposal -->
+        <div class="safety-card">
+          <div class="safety-icon-bubble">🧹</div>
+          <h3 class="safety-card-title">Responsible Post-Celebration Cleanup</h3>
+          <p class="safety-card-desc">
+            Dispose of burnt sparklers and cracker casings by quenching them in a water bucket before bagging them. Keep streets clean and prevent accidental fires or burns to sanitation workers.
+          </p>
+          <div class="safety-tag">Clean Neighborhood</div>
+        </div>
+      </div>
+
+      <!-- Interactive Safe Diwali Pledge -->
+      <div class="pledge-container">
+        <div class="pledge-card">
+          <div class="pledge-badge">🎖️ Take The Pledge</div>
+          <h3>Take The "Safe & Joyous Diwali" Pledge</h3>
+          <p>Commit to a celebration filled with radiant lights, laughter, kindness to animals, and zero accidents.</p>
+          <button id="pledgeBtn" class="action-btn glow-btn" onclick="takeSafetyPledge()">
+            <span>✋ I Pledge to Celebrate Safely!</span>
+          </button>
+          <div id="pledgeCertificate" class="pledge-certificate-card hidden">
+            <div class="cert-border">
+              <span class="cert-seal">🏅</span>
+              <h4>Certified Safe Celebration Ambassador</h4>
+              <p class="cert-user-name" id="certUserName">Honored Friend</p>
+              <p class="cert-text">
+                Has officially pledged to celebrate Diwali safely, protect animal companions, honor the environment, and spread boundless happiness!
+              </p>
+              <div class="cert-signature-row">
+                <span class="studio-signature">MOTION VAULT STUDIO</span>
+                <span class="cert-date" id="certDate">Diwali 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company & Founders Greetings Section (TARUN M S, SOW KARTHIK S, VISHNU KARTHIKEYAA J) -->
+    <section class="founders-section glass-panel" id="studioTeam">
+      <div class="section-badge">✨ Heartfelt Greetings From</div>
+      <h2 class="section-title">MOTION VAULT STUDIO</h2>
+      <p class="section-desc">
+        From our creative studio to your heart and home, we send our deepest gratitude, festive warmth, and wishes for infinite success!
+      </p>
+
+      <div class="founders-grid">
+        <!-- Founder 1: TARUN M S -->
+        <div class="founder-card animate-card">
+          <div class="founder-halo"></div>
+          <div class="founder-avatar-wrap">
+            <div class="founder-avatar">
+              <span class="avatar-initials">TM</span>
+              <div class="avatar-sparkle">✨</div>
+            </div>
+          </div>
+          <div class="founder-details">
+            <h3 class="founder-name">TARUN M S</h3>
+            <span class="founder-role">Motion Vault Studio</span>
+            <div class="founder-divider"></div>
+            <p class="founder-quote">
+              "May this Diwali spark a revolution of dynamic creativity and boundless triumphs in all your endeavors. Light up every frame of your journey!"
+            </p>
+          </div>
+          <div class="founder-social-diya">🪔</div>
+        </div>
+
+        <!-- Founder 2: SOW KARTHIK S -->
+        <div class="founder-card animate-card">
+          <div class="founder-halo"></div>
+          <div class="founder-avatar-wrap">
+            <div class="founder-avatar">
+              <span class="avatar-initials">SK</span>
+              <div class="avatar-sparkle">✨</div>
+            </div>
+          </div>
+          <div class="founder-details">
+            <h3 class="founder-name">SOW KARTHIK S</h3>
+            <span class="founder-role">Motion Vault Studio</span>
+            <div class="founder-divider"></div>
+            <p class="founder-quote">
+              "Let harmony, health, and radiant prosperity illuminate your home. May every moment of this auspicious festival bring peace and golden prosperity!"
+            </p>
+          </div>
+          <div class="founder-social-diya">🪔</div>
+        </div>
+
+        <!-- Founder 3: VISHNU KARTHIKEYAA J -->
+        <div class="founder-card animate-card">
+          <div class="founder-halo"></div>
+          <div class="founder-avatar-wrap">
+            <div class="founder-avatar">
+              <span class="avatar-initials">VK</span>
+              <div class="avatar-sparkle">✨</div>
+            </div>
+          </div>
+          <div class="founder-details">
+            <h3 class="founder-name">VISHNU KARTHIKEYAA J</h3>
+            <span class="founder-role">Motion Vault Studio</span>
+            <div class="founder-divider"></div>
+            <p class="founder-quote">
+              "Wishing you, your family, and loved ones a dazzling Diwali filled with infectious laughter, sparkling achievements, and everlasting abundance!"
+            </p>
+          </div>
+          <div class="founder-social-diya">🪔</div>
+        </div>
+      </div>
+
+      <!-- Studio Message Box -->
+      <div class="studio-signature-box">
+        <div class="mandala-watermark"></div>
+        <div class="studio-logo-glow">
+          <div class="studio-icon-logo">MV</div>
+          <h3>MOTION VAULT STUDIO</h3>
+        </div>
+        <p class="studio-blessing-text">
+          "Together with <strong>Tarun M S</strong>, <strong>Sow Karthik S</strong>, and <strong>Vishnu Karthikeyaa J</strong>, we thank you for being a part of our creative universe. May our shared journey ahead be as bright as a million glowing diyas."
+        </p>
+        <div class="studio-decor-bar">
+          <span>✨</span><span>🪔</span><span>🎆</span><span>🪔</span><span>✨</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="festive-footer">
+      <div class="footer-toran"></div>
+      <div class="footer-content">
+        <div class="footer-branding">
+          <span class="footer-company">MOTION VAULT STUDIO</span>
+          <p>Lighting up stories, animations, and heartfelt celebrations worldwide.</p>
+        </div>
+        <div class="footer-team-mention">
+          Crafted with love & festive devotion by <strong>Tarun M S</strong>, <strong>Sow Karthik S</strong> & <strong>Vishnu Karthikeyaa J</strong>
+        </div>
+        <div class="footer-bottom-row">
+          <p>© 2026 MOTION VAULT STUDIO. Shubham Deepavali! Celebrate Safely & Mindfully.</p>
+          <div class="footer-quick-links">
+            <a href="#hero">Back to Top ↑</a>
+            <a href="#safeCelebrations">Safety Tips</a>
+            <a href="#crackerArcade">Crackers Sandbox</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Downloadable Greeting Card Modal -->
+  <div class="modal-backdrop" id="cardModal" aria-hidden="true">
+    <div class="modal-dialog glass-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h3 id="modalTitle">Your Personalized Diwali Greeting Card</h3>
+        <button class="modal-close-btn" id="closeModalBtn" aria-label="Close Modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="card-canvas-wrapper">
+          <canvas id="greetingCardCanvas" width="800" height="1000"></canvas>
+        </div>
+        <p class="modal-hint">High-resolution festive poster rendered specifically for you!</p>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn glow-btn" id="downloadCardBtn">
+          <span>📥 Download Poster (PNG)</span>
+        </button>
+        <button class="share-btn whatsapp-btn" id="modalWhatsappBtn">
+          <span>📲 Share to WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Synthesizer & Logic Scripts -->
+  <script src="audio.js"></script>
+  <script src="fireworks.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
